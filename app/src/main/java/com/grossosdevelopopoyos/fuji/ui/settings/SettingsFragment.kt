@@ -4,10 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.preference.SwitchPreferenceCompat
+import com.grossosdevelopopoyos.fuji.R
 import com.grossosdevelopopoyos.fuji.databinding.FragmentSettingsBinding
 
 class SettingsFragment : Fragment() {
@@ -24,21 +25,24 @@ class SettingsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        settingsViewModel =
-            ViewModelProvider(this).get(SettingsViewModel::class.java)
+
+        settingsViewModel = ViewModelProvider(this).get(SettingsViewModel::class.java)
 
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
-        val textView: TextView = binding.textSettings
-        settingsViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
+        val root: View = inflater.inflate(R.layout.fragment_settings, container, false)
+
+
+        requireActivity().supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.settings_container, SettingsFragmentCompat())
+            .commit()
+
         return root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
     }
 }
+

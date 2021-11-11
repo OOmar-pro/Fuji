@@ -8,12 +8,21 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.grossosdevelopopoyos.fuji.databinding.ActivityMainBinding
+import androidx.appcompat.app.AppCompatDelegate
+import com.grossosdevelopopoyos.fuji.ui.settings.SharedPref
+
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+            setTheme(R.style.DarkMode) //when dark mode is enabled, we use the dark theme
+        } else {
+            setTheme(R.style.LightMode)  //default app theme
+        }
+
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -31,5 +40,6 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
     }
 }
