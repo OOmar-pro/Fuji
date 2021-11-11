@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.grossosdevelopopoyos.fuji.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        android:name="com.grossosdevelopopoyos.fuji.ui.library.LibraryFragment"
+        android:label="@string/title_library"
+        tools:layout="@layout/fragment_library" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.grossosdevelopopoyos.fuji.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:name="com.grossosdevelopopoyos.fuji.ui.sources.SourcesFragment"
+        android:label="@string/title_sources"
+        tools:layout="@layout/fragment_sources" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.grossosdevelopopoyos.fuji.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:name="com.grossosdevelopopoyos.fuji.ui.settings.SettingsFragment"
+        android:label="@string/title_settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>
