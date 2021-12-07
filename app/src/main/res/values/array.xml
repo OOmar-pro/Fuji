@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- Appearance Settings -->
-    <string-array name="darkmode">
-        <item>Oui</item>
-        <item>Non</item>
-        <item>Comme le système</item>
-    </string-array>
-</resources>
