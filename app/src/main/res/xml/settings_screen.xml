@@ -7,7 +7,7 @@
 
         <SwitchPreference
             app:key="@string/theme"
-            app:defaultValue="true"
+            app:defaultValue="false"
             app:title="@string/dark_mode" />
 
     </PreferenceCategory>
