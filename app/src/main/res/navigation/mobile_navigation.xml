@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_library">
+
+    <fragment
+        android:id="@+id/nav_library"
+        android:name="com.example.fuji.ui.library.LibraryFragment"
+        android:label="@string/title_library"
+        tools:layout="@layout/fragment_library" />
+
+    <fragment
+        android:id="@+id/nav_sources"
+        android:name="com.example.fuji.ui.sources.SourcesFragment"
+        android:label="@string/title_sources"
+        tools:layout="@layout/fragment_sources" />
+
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="com.example.fuji.ui.settings.SettingsFragment"
+        android:label="@string/title_settings"
+        tools:layout="@layout/fragment_settings" />
+</navigation>

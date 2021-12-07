@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Fuji</string>
+
+    <!-- Navbar Sections -->
+    <string name="title_library">Bibliothèque</string>
+    <string name="title_sources">Sources</string>
+    <string name="title_settings">Paramètres</string>
+
+    <!-- Settings Section-->
+    <!-- Appearance Settings -->
+    <string name="appearance">Apparence</string>
+    <string name="theme">Thème</string>
+    <string name="dark_mode">Dark Mode</string>
+    <!-- About Settings -->
+    <string name="about">A propos</string>
+    <string name="version">Version</string>
+    <string name="version_info">1.0</string>
+</resources>
