@@ -2,19 +2,28 @@ package com.example.fuji.ui.sources
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemClickListener
+import android.widget.ListView
+import android.widget.TextView
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.room.Room
+import com.example.fuji.R
 import com.example.fuji.api.Babel
+import com.example.fuji.database.AppDatabase
 import com.example.fuji.databinding.FragmentSourcesBinding
+import kotlinx.coroutines.*
+import java.lang.Runnable
 
 
 class SourcesFragment : Fragment() {
 
-    private lateinit var sourcesViewModel: SourcesViewModel
     private var _binding: FragmentSourcesBinding? = null
 
     // Activity and Context
@@ -38,15 +47,85 @@ class SourcesFragment : Fragment() {
         mContext = this.activity
         mActivity = this.activity
 
-        sourcesViewModel = ViewModelProvider(this)[SourcesViewModel::class.java]
+        // Custom Menu
+        setHasOptionsMenu(true);
 
         _binding = FragmentSourcesBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        // Récupère la liste des sources disponible sur l'api et remplit la listview
-        api.list(binding, mContext!!)
+        // Get Database
+        val db = Room.databaseBuilder(
+            mContext!!,
+            AppDatabase::class.java, "sources.db"
+        ).build()
+
+        GlobalScope.launch {
+            var data = db.sourcesDao().getAll()
+
+            // if isEmpty call API for get list of sources
+            if (data.isEmpty()) {
+                api.list(mContext!!)
+            }
+
+            val arrSources: ArrayList<Source> = ArrayList()
+            for (c in data) {
+                arrSources.add(
+                    Source(
+                        c.img,
+                        c.name,
+                        c.version
+                    )
+                )
+            }
+
+            val listView: ListView = binding.listSources
+
+            //
+            mActivity!!.runOnUiThread(Runnable {
+                listView.adapter = CustomAdapter(mContext!!, arrSources)
+            })
+        }
+
+        // add listener on each item of listview
+        binding.listSources.onItemClickListener = OnItemClickListener { list, v, pos, id ->
+            // create intent with SourceinfoActivity
+            val intent : Intent =  Intent(mActivity, SourceinfoActivity::class.java)
+            // pass in extra name of source of the item selected
+            intent.putExtra("name", v.findViewById<TextView>(R.id.nameSource).text)
+            startActivity(intent)
+        }
 
         return root
+    }
+
+    // custom menu view
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.sources_menu, menu);
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        return if (id == R.id.reload_sources) {
+            // Get database
+            val db = Room.databaseBuilder(
+                mContext!!,
+                AppDatabase::class.java, "sources.db"
+            ).build()
+
+            GlobalScope.launch {
+                var data = db.sourcesDao().getAll()
+
+                data?.forEach {
+                    db.sourcesDao().delete(it)
+                }
+                // call API for get list of sources
+                //api.list(mContext!!)
+            }
+
+            mActivity?.recreate()
+            true
+        } else super.onOptionsItemSelected(item)
+
     }
 
     override fun onDestroyView() {

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ImageView
+        android:id="@+id/logoSource"
+        android:layout_width="151dp"
+        android:layout_height="145dp"
+        android:layout_marginStart="130dp"
+        android:layout_marginTop="57dp"
+        android:layout_marginEnd="130dp"
+        android:src="@drawable/ic_about_24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TableLayout
+        android:id="@+id/panelInfo"
+        android:layout_width="410dp"
+        android:layout_height="467dp"
+        android:layout_marginTop="61dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logoSource">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/nameSourceLabel"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:text="Nom"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="274dp" />
+
+            <TextView
+                android:id="@+id/nameSourceValue"
+                android:layout_width="303dp"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:text="value"
+                android:textSize="15dp"
+                tools:layout_editor_absoluteX="35dp"
+                tools:layout_editor_absoluteY="304dp" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/versionSourceLabel"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:text="Version"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="274dp" />
+
+            <TextView
+                android:id="@+id/versionSourceValue"
+                android:layout_width="303dp"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:text="value"
+                android:textSize="15dp"
+                tools:layout_editor_absoluteX="35dp"
+                tools:layout_editor_absoluteY="304dp" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/urlSourceLabel"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:text="URL"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="274dp" />
+
+            <TextView
+                android:id="@+id/urlSourceValue"
+                android:layout_width="303dp"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:text="value"
+                android:textSize="15dp"
+                tools:layout_editor_absoluteX="35dp"
+                tools:layout_editor_absoluteY="304dp" />
+
+        </TableRow>
+
+    </TableLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

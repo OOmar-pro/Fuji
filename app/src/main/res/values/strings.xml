@@ -6,6 +6,9 @@
     <string name="title_sources">Sources</string>
     <string name="title_settings">Paramètres</string>
 
+    <!-- Action Bar -->
+    <string name="refresh">Actualiser</string>
+
     <!-- Settings Section-->
     <!-- Appearance Settings -->
     <string name="appearance">Apparence</string>

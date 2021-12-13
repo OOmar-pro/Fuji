@@ -24,7 +24,7 @@
         android:gravity="center_vertical"
         android:layout_row="0"
         android:layout_column="1"
-        android:text="Le cercle du scan" />
+        android:text="Name" />
 
     <TextView
         android:id="@+id/subtitleSource"
@@ -36,5 +36,5 @@
         android:textSize="15dp"
         android:layout_row="0"
         android:layout_column="1"
-        android:text="Version : 1.0"/>
+        android:text="version"/>
 </GridLayout>

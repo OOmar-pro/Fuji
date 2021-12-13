@@ -3,6 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Developpement/workspace/EICNAM/FIP2/StudioProjects/Fuji/app/src/main/res/layout/activity_main.xml" value="0.16058763931104356" />
+        <entry key="..\:/Developpement/workspace/EICNAM/FIP2/StudioProjects/Fuji/app/src/main/res/layout/fragment_sources.xml" value="0.16058763931104356" />
+        <entry key="..\:/Developpement/workspace/EICNAM/FIP2/StudioProjects/Fuji/app/src/main/res/layout/row_items_sources.xml" value="0.16058763931104356" />
+        <entry key="..\:/Developpement/workspace/EICNAM/FIP2/StudioProjects/Fuji/app/src/main/res/layout/sourceinfo.xml" value="0.22" />
+        <entry key="..\:/Developpement/workspace/EICNAM/FIP2/StudioProjects/Fuji/app/src/main/res/menu/sources_menu.xml" value="0.3251282051282051" />
         <entry key="..\:/Developpement/workspace/EICNAM/FIP2/StudioProjects/Fujiwara/app/src/main/res/drawable/ic_library_black_24dp.xml" value="0.5692708333333333" />
         <entry key="..\:/Developpement/workspace/EICNAM/FIP2/StudioProjects/Fujiwara/app/src/main/res/drawable/ic_settings_black_24dp.xml" value="0.5692708333333333" />
         <entry key="..\:/Developpement/workspace/EICNAM/FIP2/StudioProjects/Fujiwara/app/src/main/res/layout/activity_main.xml" value="0.432518115942029" />

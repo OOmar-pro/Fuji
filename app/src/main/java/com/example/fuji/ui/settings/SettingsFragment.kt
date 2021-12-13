@@ -7,7 +7,12 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
+import androidx.room.Room
 import com.example.fuji.R
+import com.example.fuji.database.AppDatabase
+import com.example.fuji.database.SettingsEntity
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class SettingsFragment : PreferenceFragmentCompat() {
 
@@ -37,16 +42,30 @@ class SettingsFragment : PreferenceFragmentCompat() {
             Preference.OnPreferenceChangeListener { _, _ ->
                 if (onOffDarkMode.isChecked) {
                     // Deactivate Dark Mode
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    setDarkMode(false)
                     onOffDarkMode.isChecked = false
                     mActivity?.recreate()
                 } else {
                     // Activate Dark Mode
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    setDarkMode(true)
                     onOffDarkMode.isChecked = true
                     mActivity!!.recreate()
                 }
                 false
             }
+    }
+
+    // Set Setting Dark mode in database
+    private fun setDarkMode(value: Boolean) {
+        // Get Database
+        val db = Room.databaseBuilder(
+            mContext!!,
+            AppDatabase::class.java, "sources.db"
+        ).build()
+
+        // Set setting
+        GlobalScope.launch {
+            db.settingsDao().updateSetting(SettingsEntity(1, "darkmode", value))
+        }
     }
 }

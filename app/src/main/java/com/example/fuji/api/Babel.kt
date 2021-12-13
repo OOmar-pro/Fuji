@@ -1,10 +1,18 @@
 package com.example.fuji.api
 
 import android.content.Context
+import android.content.Intent
 import android.widget.ListView
 import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
+import androidx.room.Room
+import com.example.fuji.database.AppDatabase
+import com.example.fuji.database.SourcesEntity
 import com.example.fuji.databinding.FragmentSourcesBinding
 import com.example.fuji.ui.sources.CustomAdapter
+import com.example.fuji.ui.sources.SourceinfoActivity
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.Call
@@ -13,9 +21,10 @@ import retrofit2.Response
 
 class Babel {
 
-    private val baseURL = "http://163.173.118.4:8000/"
+    private val baseURL = "https://babel-api7340.herokuapp.com/"
 
-    fun list(binding: FragmentSourcesBinding, mContext: Context) {
+    // Récupere la liste des sources activées et la stocke dans la bdd
+    fun list(mContext: Context) {
         val retrofit = Retrofit.Builder()
             .baseUrl(baseURL)
             .addConverterFactory(MoshiConverterFactory.create())
@@ -25,25 +34,23 @@ class Babel {
         val sourceRequest = service.listSources()
 
         sourceRequest.enqueue(object : Callback<List<Source>> {
-            override fun onResponse(
-                call: Call<List<Source>>,
-                response: Response<List<Source>>
-            ) {
+            override fun onResponse(call: Call<List<Source>>, response: Response<List<Source>>) {
+                val db = Room.databaseBuilder(
+                    mContext!!,
+                    AppDatabase::class.java, "sources.db"
+                ).build()
+
                 val allSource = response.body()
                 if (allSource != null) {
-                    val arrSources: ArrayList<com.example.fuji.ui.sources.Source> = ArrayList()
-                    for (c in allSource) {
-                        arrSources.add(
-                            com.example.fuji.ui.sources.Source(
-                                c.img,
-                                c.name,
-                                "1.0"
-                            )
-                        )
-                        val listView: ListView = binding.listSources
-                        listView.adapter = CustomAdapter(mContext!!, arrSources)
-                        println(" ${c.name} : ${c.url} : ${c.img} ")
-
+                    GlobalScope.launch {
+                        var data = db.sourcesDao().getAll()
+                        if (data.isEmpty()) {
+                            for (c in allSource) {
+                                if (c.active) {
+                                    db.sourcesDao().insertAll(SourcesEntity(c.id, c.version, c.name, c.img, c.url, c.url_latests, c.url_manga, c.url_chapter, c.url_search, c.active))
+                                }
+                            }
+                        }
                     }
                 }
             }

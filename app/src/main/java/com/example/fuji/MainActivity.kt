@@ -9,7 +9,13 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.preference.SwitchPreference
+import androidx.room.Room
+import com.example.fuji.database.AppDatabase
+import com.example.fuji.database.SettingsEntity
 import com.example.fuji.databinding.ActivityMainBinding
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import okhttp3.*
 import java.io.IOException
 
@@ -19,8 +25,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        supportActionBar?.setDisplayHomeAsUpEnabled(true);
+        initDarkMode()
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -40,5 +45,29 @@ class MainActivity : AppCompatActivity() {
 
 
 
+    }
+
+    fun initDarkMode() {
+        // Get Database
+        val db = Room.databaseBuilder(
+            this.applicationContext,
+            AppDatabase::class.java, "sources.db"
+        ).build()
+
+        // init
+        GlobalScope.launch {
+            var data = db.settingsDao().findByName("darkmode")
+
+            if (data == null) {
+                db.settingsDao().insertAll(SettingsEntity(1,"darkmode", false))
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            }
+            else if (data.value) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            }
+            else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            }
+        }
     }
 }
