@@ -8,19 +8,18 @@ import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.fuji.R
-import com.example.fuji.others.DownloadImage
+import com.example.fuji.api.Manga
+import com.squareup.picasso.Picasso
 
-class CustomAdapter(var context : Context, var sources : ArrayList<Source> ) : BaseAdapter() {
+class CustomAdapterManga(var context : Context, var mangas : ArrayList<Manga> ) : BaseAdapter() {
 
     private class ViewHolder(row : View?) {
-        var logoSource: ImageView
-        var nameSource: TextView
-        var subtitleSource: TextView
+        var imageManga: ImageView
+        var nameManga: TextView
 
         init {
-            this.logoSource = row?.findViewById(R.id.logoSource) as ImageView
-            this.nameSource = row?.findViewById(R.id.nameSource) as TextView
-            this.subtitleSource = row?.findViewById(R.id.subtitleSource) as TextView
+            this.imageManga = row?.findViewById(R.id.imageManga) as ImageView
+            this.nameManga = row?.findViewById(R.id.nameManga) as TextView
         }
     }
 
@@ -31,7 +30,7 @@ class CustomAdapter(var context : Context, var sources : ArrayList<Source> ) : B
 
         if (convertView == null) {
             var layout = LayoutInflater.from(context)
-            view = layout.inflate(R.layout.row_items_sources, parent, false)
+            view = layout.inflate(R.layout.list_item_manga_source, parent, false)
             viewHolder = ViewHolder(view)
             view.tag = viewHolder
         } else {
@@ -39,26 +38,28 @@ class CustomAdapter(var context : Context, var sources : ArrayList<Source> ) : B
             viewHolder = view.tag as ViewHolder
         }
 
-        var source: Source = getItem(position) as Source
+        var manga: Manga = getItem(position) as Manga
 
-        viewHolder.nameSource.text = source.name
-        viewHolder.subtitleSource.text = source.version
-        DownloadImage(viewHolder.logoSource).execute(source.img)
+        viewHolder.nameManga.text = manga.title
+        if (manga.img.isEmpty()) {
+            Picasso.get().load("https://semantic-ui.com/images/wireframe/white-image.png").into(viewHolder.imageManga)
+        }
+        else {
+            Picasso.get().load(manga.img).into(viewHolder.imageManga)
+        }
 
         return view as View
-
     }
 
     override fun getCount(): Int {
-        return sources.count()
+        return mangas.count()
     }
 
     override fun getItem(position: Int): Any {
-        return sources.get(position)
+        return mangas.get(position)
     }
 
     override fun getItemId(position: Int): Long {
         return position.toLong()
     }
-
 }

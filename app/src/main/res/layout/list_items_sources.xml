@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants">
 
     <ImageView
         android:id="@+id/logoSource"
@@ -13,12 +15,22 @@
         android:layout_marginBottom="5dp"
         android:src="@drawable/ic_about_24dp" />
 
+
+    <TextView
+        android:id="@+id/idSource"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_columnWeight="1"
+        android:layout_row="0"
+        android:layout_column="1"
+        android:visibility="invisible"/>
+
     <TextView
         android:id="@+id/nameSource"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:layout_columnWeight="1"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginLeft="6dp"
         android:textSize="18dp"
         android:gravity="center_vertical"
@@ -31,10 +43,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_columnWeight="1"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="28dp"
         android:layout_marginLeft="16dp"
         android:textSize="15dp"
         android:layout_row="0"
         android:layout_column="1"
         android:text="version"/>
+
+    <Button
+        android:id="@+id/latestSource"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_row="0"
+        android:layout_column="2"
+        android:layout_margin="10dp"
+        android:drawableStart="@drawable/ic_baseline_recent_24"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+
 </GridLayout>

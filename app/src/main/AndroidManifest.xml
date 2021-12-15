@@ -6,13 +6,16 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_fuji"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_fuji_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Fuji">
         <activity
-            android:name=".ui.sources.SourceinfoActivity"
+            android:name=".ui.sources.SourceListMangaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.sources.SourceInfoActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

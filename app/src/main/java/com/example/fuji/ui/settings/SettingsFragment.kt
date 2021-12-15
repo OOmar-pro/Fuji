@@ -3,7 +3,6 @@ package com.example.fuji.ui.settings
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference

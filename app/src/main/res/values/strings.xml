@@ -8,6 +8,7 @@
 
     <!-- Action Bar -->
     <string name="refresh">Actualiser</string>
+    <string name="search">Rechercher</string>
 
     <!-- Settings Section-->
     <!-- Appearance Settings -->

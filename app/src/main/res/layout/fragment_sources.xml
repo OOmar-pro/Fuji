@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.sources.SourcesFragment" >
+    tools:context=".ui.sources.SourcesFragment"
+    >
 
     <ListView
         android:id="@+id/list_sources"

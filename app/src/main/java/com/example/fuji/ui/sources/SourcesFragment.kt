@@ -5,14 +5,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import android.widget.AdapterView
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.ListView
 import android.widget.TextView
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.room.Room
 import com.example.fuji.R
 import com.example.fuji.api.Babel
@@ -21,6 +17,7 @@ import com.example.fuji.databinding.FragmentSourcesBinding
 import kotlinx.coroutines.*
 import java.lang.Runnable
 
+import com.example.fuji.api.Source
 
 class SourcesFragment : Fragment() {
 
@@ -71,26 +68,34 @@ class SourcesFragment : Fragment() {
             for (c in data) {
                 arrSources.add(
                     Source(
-                        c.img,
+                        c.id,
+                        c.version,
                         c.name,
-                        c.version
+                        c.img,
+                        c.url,
+                        c.url_latests,
+                        c.url_manga,
+                        c.url_chapter,
+                        c.url_search,
+                        c.active
                     )
                 )
             }
 
             val listView: ListView = binding.listSources
 
-            //
+            // Update UI on Main Thread
             mActivity!!.runOnUiThread(Runnable {
-                listView.adapter = CustomAdapter(mContext!!, arrSources)
+                listView.adapter = CustomAdapterSource(mContext!!, arrSources)
             })
         }
 
         // add listener on each item of listview
         binding.listSources.onItemClickListener = OnItemClickListener { list, v, pos, id ->
-            // create intent with SourceinfoActivity
-            val intent : Intent =  Intent(mActivity, SourceinfoActivity::class.java)
+            // create intent with SourceInfoActivity
+            val intent : Intent =  Intent(mActivity, SourceInfoActivity::class.java)
             // pass in extra name of source of the item selected
+            intent.putExtra("id", v.findViewById<TextView>(R.id.idSource).text)
             intent.putExtra("name", v.findViewById<TextView>(R.id.nameSource).text)
             startActivity(intent)
         }
