@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Fuji">
         <activity
+            android:name=".ui.sources.MangaDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.sources.SourceListMangaActivity"
             android:exported="false" />
         <activity
