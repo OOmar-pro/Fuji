@@ -9,11 +9,13 @@ import android.widget.Toast
 import androidx.room.Room
 import com.example.fuji.R
 import com.example.fuji.api.models.ChapterDetail
+import com.example.fuji.api.models.ChapterPages
 import com.example.fuji.api.models.MangaDetail
 import com.example.fuji.database.AppDatabase
 import com.example.fuji.database.SourcesEntity
 import com.example.fuji.ui.sources.CustomAdapterChapter
 import com.example.fuji.ui.sources.CustomAdapterManga
+import com.example.fuji.ui.sources.CustomAdapterPages
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -124,14 +126,11 @@ class Babel {
             .build()
 
         val service = retrofit.create(BabelService::class.java)
-        Log.d("DEV_KAGE", id_source)
-        Log.d("DEV_KAGE", manga_slug)
         val detailRequest = service.detail(id_source, manga_slug)
 
         detailRequest.enqueue(object : Callback<MangaDetail> {
             override fun onResponse(call: Call<MangaDetail>, response: Response<MangaDetail>) {
                 val manga_detail = response.body()
-                Log.d("DEV_KAGE", manga_detail?.metadata?.description.toString())
 
                 if (manga_detail != null) {
                     // details du manga
@@ -145,6 +144,41 @@ class Babel {
             override fun onFailure(call: Call<MangaDetail>, t: Throwable) {
                 Log.e("DEV", t.toString());
                 Toast.makeText(mContext, "Erreur: Impossible de récupérer les informations du manga.", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    // Récupere les pages d'un chapitre pour un manga et une source donnee
+    fun getChapter(list: ListView, mContext: Context, id_source: String, manga_slug: String, chapter_number: String) {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(baseURL)
+            .addConverterFactory(MoshiConverterFactory.create())
+            .build()
+
+        val service = retrofit.create(BabelService::class.java)
+        Log.d("DEV_KAGE", id_source)
+        Log.d("DEV_KAGE", manga_slug)
+        Log.d("DEV_KAGE", chapter_number)
+
+        val detailRequest = service.getChapter(id_source, manga_slug, chapter_number)
+
+        detailRequest.enqueue(object : Callback<ChapterPages> {
+            override fun onResponse(call: Call<ChapterPages>, response: Response<ChapterPages>) {
+                val chapter = response.body()
+                Log.d("DEV_KAGE", chapter.toString())
+
+                if (chapter != null) {
+                    // details du manga
+                    // TODO
+
+                    // Remplissage des chapitres dans la vue
+                    val pages: ArrayList<String> = ArrayList(chapter.pages)
+                    list.adapter = CustomAdapterPages(mContext, id_source, manga_slug, pages)
+                }
+            }
+            override fun onFailure(call: Call<ChapterPages>, t: Throwable) {
+                Log.e("DEV_KAGE", t.toString());
+                Toast.makeText(mContext, "Erreur: Impossible de récupérer les pages du chapitre.", Toast.LENGTH_SHORT).show()
             }
         })
     }

@@ -54,15 +54,17 @@ class CustomAdapterChapter(var context : Context, var source_id : String, var ma
         viewHolder.date.text = chapter.date
 
         // add listener on each button item of listview
-//        viewHolder.containerChapters.setOnClickListener{
-//            // create intent with MangaDetailsActivity
-//            val intent : Intent = Intent(context, ReaderActivity::class.java)
-//            // pass in extra name of source of the item selected
-//            intent.putExtra("source_id", source_id)
-//            intent.putExtra("manga_slug", mangas_slug)
-//            intent.putExtra("chapter_number", chapter.number)
-//            startActivity(context, intent, null)
-//        }
+        viewHolder.containerChapters.setOnClickListener{
+            // create intent with MangaDetailsActivity
+            val intent : Intent = Intent(context, ReaderActivity::class.java)
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            // pass in extra name of source of the item selected
+            intent.putExtra("source_id", source_id)
+            intent.putExtra("manga_slug", mangas_slug)
+            intent.putExtra("chapter_title", chapter.title)
+            intent.putExtra("chapter_number", chapter.number)
+            startActivity(context, intent, null)
+        }
 
         return view as View
     }

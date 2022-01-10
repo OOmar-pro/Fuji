@@ -58,6 +58,7 @@ class CustomAdapterManga(var context : Context, var source_id : String, var mang
         viewHolder.containerManga.setOnClickListener{
             // create intent with MangaDetailsActivity
             val intent : Intent = Intent(context, MangaDetailsActivity::class.java)
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             // pass in extra name of source of the item selected
             intent.putExtra("source_id", source_id)
             intent.putExtra("manga_slug", manga.slug)
