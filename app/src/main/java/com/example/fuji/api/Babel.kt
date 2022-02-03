@@ -2,15 +2,13 @@ package com.example.fuji.api
 
 import android.content.Context
 import android.util.Log
-import android.widget.GridLayout
-import android.widget.LinearLayout
-import android.widget.ListView
-import android.widget.Toast
+import android.widget.*
 import androidx.room.Room
 import com.example.fuji.R
 import com.example.fuji.api.models.ChapterDetail
 import com.example.fuji.api.models.ChapterPages
 import com.example.fuji.api.models.MangaDetail
+import com.example.fuji.api.models.MangaMetadata
 import com.example.fuji.database.AppDatabase
 import com.example.fuji.database.SourcesEntity
 import com.example.fuji.ui.sources.CustomAdapterChapter
@@ -107,7 +105,6 @@ class Babel {
                                 )
                             )
                         }
-
                         list.adapter = CustomAdapterManga(mContext, id_source, arrManga)
                     }
                 }
@@ -119,7 +116,7 @@ class Babel {
     }
 
     // Récupere les details d'un manga pour une source donnee
-    fun detail(list: ListView, mContext: Context, id_source: String, manga_slug: String) {
+    fun detail(details_views : MutableList<Any>,list: ListView, mContext: Context, id_source: String, manga_slug: String) {
         val retrofit = Retrofit.Builder()
             .baseUrl(baseURL)
             .addConverterFactory(MoshiConverterFactory.create())
@@ -134,7 +131,16 @@ class Babel {
 
                 if (manga_detail != null) {
                     // details du manga
-                    // TODO
+                    val metadata : MangaMetadata = manga_detail.metadata!!
+
+                    val image_view : ImageView = details_views.get(0) as ImageView
+                    val title_view : TextView = details_views.get(1) as TextView
+                    val description_view : TextView = details_views.get(2) as TextView
+
+                    Picasso.get().load(metadata.img).error(R.drawable.white_image).placeholder( R.drawable.progress_animation ).into(image_view)
+                    title_view.text = metadata.title
+                    description_view.text = metadata.description
+
 
                     // Remplissage des chapitres dans la vue
                     val chapters: ArrayList<ChapterDetail> = ArrayList(manga_detail.chapters)
@@ -168,9 +174,6 @@ class Babel {
                 Log.d("DEV_KAGE", chapter.toString())
 
                 if (chapter != null) {
-                    // details du manga
-                    // TODO
-
                     // Remplissage des chapitres dans la vue
                     val pages: ArrayList<String> = ArrayList(chapter.pages)
                     list.adapter = CustomAdapterPages(mContext, id_source, manga_slug, pages)

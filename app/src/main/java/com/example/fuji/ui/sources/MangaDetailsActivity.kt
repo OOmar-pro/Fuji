@@ -30,7 +30,12 @@ class MangaDetailsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true);
 
         // get et set list of manga of sources selected
-        api.detail(findViewById(R.id.list_chapters), applicationContext, source_id!!, manga_slug!!)
+        val details_views = mutableListOf<Any>()
+        details_views.add(findViewById(R.id.image_manga_detail))
+        details_views.add(findViewById(R.id.titre_manga_detail))
+        details_views.add(findViewById(R.id.description_manga_detail))
+
+        api.detail(details_views, findViewById(R.id.list_chapters), applicationContext, source_id!!, manga_slug!!)
     }
 
     // custom menu view
