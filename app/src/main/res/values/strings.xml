@@ -19,4 +19,6 @@
     <string name="about">A propos</string>
     <string name="version">Version</string>
     <string name="version_info">1.0</string>
+    <string name="ajouter_la_biblioth_que">Ajouter à la bibliothèque</string>
+    <string name="dans_la_biblioth_que">Dans la bibliothèque</string>
 </resources>
