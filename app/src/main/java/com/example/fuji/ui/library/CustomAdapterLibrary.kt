@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat.startActivity
 import com.example.fuji.R
+import com.example.fuji.api.Babel
 import com.example.fuji.api.Manga
 import com.example.fuji.api.Source
 
@@ -19,15 +20,16 @@ import com.squareup.picasso.Picasso
 
 class CustomAdapterLibrary(var context : Context, var mangas : ArrayList<Manga> ) : BaseAdapter() {
 
+    // API
+    private val api: Babel = Babel()
+
     private class ViewHolder(row : View?) {
-        var slug: TextView
         var title: TextView
-        var source_id: TextView
+        var image: ImageView
 
         init {
-            this.slug = row?.findViewById(R.id.text_manga_slug) as TextView
             this.title = row?.findViewById(R.id.text_manga_title) as TextView
-            this.source_id = row?.findViewById(R.id.text_source_id) as TextView
+            this.image = row?.findViewById(R.id.image_manga_library) as ImageView
         }
     }
 
@@ -48,9 +50,8 @@ class CustomAdapterLibrary(var context : Context, var mangas : ArrayList<Manga> 
 
         var manga: Manga = getItem(position) as Manga
 
-        viewHolder.slug.text = manga.slug
         viewHolder.title.text = manga.title
-        viewHolder.source_id.text = manga.url
+        api.getImage(viewHolder.image, this.context, manga.source_id!!, manga.slug!!)
 
         return view as View
     }

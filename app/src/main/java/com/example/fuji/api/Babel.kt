@@ -74,7 +74,11 @@ class Babel {
             }
 
             override fun onFailure(call: Call<List<Source>>, t: Throwable) {
-                Toast.makeText(mContext, "Erreur: Impossible de récupérer les sources disponibles sur l'api", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    mContext,
+                    "Erreur: Impossible de récupérer les sources disponibles sur l'api",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
     }
@@ -93,30 +97,39 @@ class Babel {
             override fun onResponse(call: Call<List<Manga>>, response: Response<List<Manga>>) {
                 val latestsMangas = response.body()
                 if (latestsMangas != null) {
+                    val arrManga: ArrayList<Manga> = ArrayList()
                     for (c in latestsMangas) {
-                        val arrManga: ArrayList<Manga> = ArrayList()
-                        for (c in latestsMangas) {
-                            arrManga.add(
-                                Manga(
-                                    c.title,
-                                    c.slug,
-                                    c.url,
-                                    c.img
-                                )
+                        arrManga.add(
+                            Manga(
+                                c.title,
+                                c.slug,
+                                id_source,
+                                c.img
                             )
-                        }
-                        list.adapter = CustomAdapterManga(mContext, id_source, arrManga)
+                        )
                     }
+                    list.adapter = CustomAdapterManga(mContext, id_source, arrManga)
                 }
             }
+
             override fun onFailure(call: Call<List<Manga>>, t: Throwable) {
-                Toast.makeText(mContext, "Erreur: Impossible de récupérer les mangas disponibles sur la source", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    mContext,
+                    "Erreur: Impossible de récupérer les mangas disponibles sur la source",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
     }
 
     // Récupere les details d'un manga pour une source donnee
-    fun detail(details_views : MutableList<Any>,list: ListView, mContext: Context, id_source: String, manga_slug: String) {
+    fun detail(
+        details_views: MutableList<Any>,
+        list: ListView,
+        mContext: Context,
+        id_source: String,
+        manga_slug: String
+    ) {
         val retrofit = Retrofit.Builder()
             .baseUrl(baseURL)
             .addConverterFactory(MoshiConverterFactory.create())
@@ -131,13 +144,14 @@ class Babel {
 
                 if (manga_detail != null) {
                     // details du manga
-                    val metadata : MangaMetadata = manga_detail.metadata!!
+                    val metadata: MangaMetadata = manga_detail.metadata!!
 
-                    val image_view : ImageView = details_views.get(0) as ImageView
-                    val title_view : TextView = details_views.get(1) as TextView
-                    val description_view : TextView = details_views.get(2) as TextView
+                    val image_view: ImageView = details_views.get(0) as ImageView
+                    val title_view: TextView = details_views.get(1) as TextView
+                    val description_view: TextView = details_views.get(2) as TextView
 
-                    Picasso.get().load(metadata.img).error(R.drawable.white_image).placeholder( R.drawable.progress_animation ).into(image_view)
+                    Picasso.get().load(metadata.img).error(R.drawable.white_image)
+                        .placeholder(R.drawable.progress_animation).into(image_view)
                     title_view.text = metadata.title
                     description_view.text = metadata.description
 
@@ -147,15 +161,26 @@ class Babel {
                     list.adapter = CustomAdapterChapter(mContext, id_source, manga_slug, chapters)
                 }
             }
+
             override fun onFailure(call: Call<MangaDetail>, t: Throwable) {
                 Log.e("DEV", t.toString());
-                Toast.makeText(mContext, "Erreur: Impossible de récupérer les informations du manga.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    mContext,
+                    "Erreur: Impossible de récupérer les informations du manga.",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
     }
 
     // Récupere les pages d'un chapitre pour un manga et une source donnee
-    fun getChapter(list: ListView, mContext: Context, id_source: String, manga_slug: String, chapter_number: String) {
+    fun getChapter(
+        list: ListView,
+        mContext: Context,
+        id_source: String,
+        manga_slug: String,
+        chapter_number: String
+    ) {
         val retrofit = Retrofit.Builder()
             .baseUrl(baseURL)
             .addConverterFactory(MoshiConverterFactory.create())
@@ -179,9 +204,54 @@ class Babel {
                     list.adapter = CustomAdapterPages(mContext, id_source, manga_slug, pages)
                 }
             }
+
             override fun onFailure(call: Call<ChapterPages>, t: Throwable) {
                 Log.e("DEV_KAGE", t.toString());
-                Toast.makeText(mContext, "Erreur: Impossible de récupérer les pages du chapitre.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    mContext,
+                    "Erreur: Impossible de récupérer les pages du chapitre.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
+    }
+
+    // Récupere la couverture d'un manga pour une source donnee
+    fun getImage(
+        image_container: ImageView,
+        mContext: Context,
+        id_source: String,
+        manga_slug: String
+    ) {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(baseURL)
+            .addConverterFactory(MoshiConverterFactory.create())
+            .build()
+
+        val service = retrofit.create(BabelService::class.java)
+        Log.d("DEV_KAGE", id_source)
+        Log.d("DEV_KAGE", manga_slug)
+
+        val detailRequest = service.getImage(id_source, manga_slug)
+
+        detailRequest.enqueue(object : Callback<String> {
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                val image_url = response.body()
+                Log.d("DEV_KAGE_URL", image_url.toString())
+
+                if (image_url != null) {
+                    // Remplissage des chapitres dans la vue
+                    Picasso.get().load(image_url).error(R.drawable.white_image).placeholder( R.drawable.progress_animation ).into(image_container)
+                }
+            }
+
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                Log.e("DEV_KAGE", t.toString());
+                Toast.makeText(
+                    mContext,
+                    "Erreur: Impossible de récupérer l'image du manga.",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
     }

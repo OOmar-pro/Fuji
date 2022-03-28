@@ -19,4 +19,7 @@ interface BabelService {
 
     @GET("{id_source}/{manga_slug}/{chapter_number}")
     fun getChapter(@Path(value = "id_source", encoded = true) id_source: String, @Path(value = "manga_slug", encoded = true) manga_slug: String, @Path(value = "chapter_number", encoded = true) chapter_number: String): Call<ChapterPages>
+
+    @GET("{id_source}/{manga_slug}/image/")
+    fun getImage(@Path(value = "id_source", encoded = true) id_source: String, @Path(value = "manga_slug", encoded = true) manga_slug: String): Call<String>
 }

@@ -93,12 +93,14 @@ class LibraryFragment : Fragment() {
         // add listener on each item of listview
         binding.libraryView.onItemClickListener =
             AdapterView.OnItemClickListener { list, v, pos, id ->
+                val manga : Manga = list.getItemAtPosition(pos) as Manga
+
                 // create intent with SourceInfoActivity
                 val intent: Intent = Intent(mActivity, MangaDetailsActivity::class.java)
                 // pass in extra name of source of the item selected
-//                intent.putExtra("source_id", list.get(pos).source_id)
-//                intent.putExtra("manga_slug", manga.slug)
-//                intent.putExtra("manga_title", manga.title)
+                intent.putExtra("source_id", manga.source_id)
+                intent.putExtra("manga_slug", manga.slug)
+                intent.putExtra("manga_title", manga.title)
                 startActivity(intent)
             }
 
